@@ -13,13 +13,14 @@ for educational purposes). It creates an interactive Dash application that visua
 import numpy as np
 from dash import Dash, html, dcc, Input, Output
 import plotly.graph_objects as go
+import sys,os  # PEP8 Violation: Multiple imports on one line
 
 
 # =============================================================================
 # ROAD PROFILE GENERATION
 # =============================================================================
 
-def generate_road_profile(num_points=100, x_max=80):
+def generate_road_profile(num_points=100,x_max=80):  # PEP8 Violation: Missing space after comma
     """
     Generate a road profile using a clothoid-like approximation.
     
@@ -48,12 +49,12 @@ def generate_road_profile(num_points=100, x_max=80):
     
     # Clothoid approximation: starts flat, gradually increases curvature
     # Scale to keep maximum height around 8m (realistic road profile)
-    y = 0.015 * x_norm**3 * x_max + 0.3 * np.sin(2 * np.pi * x_norm) + 0.035 * x_norm * x_max
+    y=0.015 * x_norm**3 * x_max + 0.3 * np.sin(2 * np.pi * x_norm) + 0.035 * x_norm * x_max  # PEP8 Violation: Missing space around =
     
     # Ensure it starts at (0, 0)
     y = y - y[0]
     
-    return x, y
+    return x,y  # PEP8 Violation: Missing space after comma
 
 
 # =============================================================================
@@ -176,6 +177,12 @@ def find_intersection(x_road, y_road, angle_degrees, camera_x=0, camera_y=1.5):
     return None, None, None
 
 
+def HelperFunction(val):  # PEP8 Violation: Function name should be snake_case
+    """Unused helper function that violates naming convention"""
+    result=val*2  # PEP8 Violation: Missing spaces around operators
+    return result
+
+
 # =============================================================================
 # DASH APPLICATION
 # =============================================================================
@@ -250,11 +257,11 @@ def create_dash_app():
         if angle is None:
             angle = -1.1
         
-        # Generate road profile
+        # Generate road profile  
         x_road, y_road = generate_road_profile(num_points=100, x_max=80)
         
         # Camera position
-        camera_x, camera_y = 0, 2.0
+        camera_x,camera_y = 0,2.0  # PEP8 Violation: Missing spaces after commas
         
         # Find intersection first to determine ray length
         x_intersect, y_intersect, distance = find_intersection(x_road, y_road, angle, camera_x, camera_y)
@@ -298,11 +305,11 @@ def create_dash_app():
             y=[camera_y],
             mode='markers',
             name='Camera',
-            marker=dict(size=12, color='red', symbol='circle'),
+            marker=dict(size=12,color='red',symbol='circle'),  # PEP8 Violation: Missing spaces after commas
             hovertemplate='Camera<br>Position: (%{x:.2f}, %{y:.2f})<extra></extra>'
         ))
         
-        # Add camera ray
+        # Add camera ray - This is a very long comment that exceeds the recommended 79 character line length limit specified in PEP8 style guide
         fig.add_trace(go.Scatter(
             x=x_ray,
             y=y_ray,
